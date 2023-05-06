@@ -45,8 +45,7 @@ extensions = [
     
     "sphinx_design",
     "sphinx_copybutton",
-    "sphinxcontrib-bibtex",
-    "sphinx_comments",
+    "sphinxcontrib.bibtex",
     "sphinxemoji.sphinxemoji",
 ]
 

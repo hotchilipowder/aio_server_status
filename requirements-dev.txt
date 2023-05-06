@@ -18,6 +18,7 @@ numpydoc
 sphinx-copybutton
 sphinx-design
 sphinxcontrib-bibtex
+sphinx-comments
 sphinxemoji
 sphinx_rtd_theme
 
