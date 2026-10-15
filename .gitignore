@@ -135,7 +135,7 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Legacy documentation output
 /site
 
 # mypy
@@ -160,3 +160,12 @@ cython_debug/
 #.idea/
 
 
+# Local monitoring configuration and generated dashboard
+servers.yaml
+servers.yml
+aio_server_status/static/
+fe/node_modules/
+fe/dist/
+fe/coverage/
+fe/*.tsbuildinfo
+.ruff_cache/

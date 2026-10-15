@@ -1,0 +1,21 @@
+# Reuse aliases from ~/.ssh/config. Test each with: ssh my-server
+servers:
+  - my-server
+  # - gpu-server
+
+# Optional settings (defaults shown):
+# interval: 10
+# timeout: 10
+# concurrency: 10
+# listen: 127.0.0.1
+# port: 8080
+# title: My infrastructure
+
+# Explicit connections work too:
+# servers:
+#   - host: 192.0.2.10
+#     name: Production
+#     user: monitor
+#     port: 22
+#     identity_file: ~/.ssh/id_ed25519
+#     group: Production

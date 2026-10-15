@@ -1,0 +1,52 @@
+name: GitHub Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v9
+        with:
+          version: '0.13.1'
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-assets
+          path: dist/release/
+      - name: Check tag and downloaded assets before publishing
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          uv run --no-project python scripts/prepare_release.py --verify-only --tag "$RELEASE_TAG"
+          cd dist/release
+          sha256sum --check SHA256SUMS
+      - name: Publish bundled monitoring tool and standalone frontend
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/release/* --clobber
+          else
+            gh release create "$RELEASE_TAG" dist/release/* --verify-tag --generate-notes --title "$RELEASE_TAG"
+          fi

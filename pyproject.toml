@@ -1,20 +1,52 @@
-[tool.black]
-line-length = 115
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
 
-  # The following are specific to Black, you probably don't want those.
-  | blib2to3
-  | tests/data
-)/
-'''
+[project]
+name = "aio_server_status"
+version = "0.2.0"
+description = "Agentless Linux server monitoring over SSH"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "hotchilipowder"}]
+dependencies = ["aiohttp>=3.12,<4", "PyYAML>=6.0.2,<7"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<10",
+    "pytest-asyncio>=0.25,<2",
+    "pytest-aiohttp>=1,<2",
+    "ruff>=0.11,<1",
+    "pre-commit>=4,<5",
+]
+docs = ["sphinx>=8.2,<10", "myst-parser>=4,<6", "furo>=2024.8,<2027"]
+build = ["twine>=6,<8"]
+
+[tool.uv]
+required-version = ">=0.13.1"
+
+[project.scripts]
+aio-server-status = "aio_server_status.cli:main"
+
+[project.urls]
+Repository = "https://github.com/hotchilipowder/aio_server_status"
+Documentation = "https://hotchilipowder.github.io/aio_server_status/"
+
+[tool.setuptools.packages.find]
+include = ["aio_server_status*"]
+exclude = ["aio_server_status.tests*"]
+
+[tool.setuptools.package-data]
+aio_server_status = ["probe.sh", "static/*", "static/assets/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]

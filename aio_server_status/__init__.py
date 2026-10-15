@@ -1,4 +1,3 @@
-from ._version import get_versions
+"""Agentless Linux monitoring over SSH."""
 
-__version__ = get_versions()["version"]
-del get_versions
+__version__ = "0.2.0"
