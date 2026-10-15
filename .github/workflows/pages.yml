@@ -44,7 +44,7 @@ jobs:
       - name: Add the synthetic dashboard demo
         run: cp -r fe/dist docs/_build/html/demo
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs/_build/html
 
